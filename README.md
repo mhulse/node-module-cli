@@ -4,6 +4,6 @@
 
 ## Installation
 
-You can [download the zip](/archive/refs/heads/main.zip), decompress and put anywhere on your computer.
+You can [download the zip](/node-module-cli/archive/refs/heads/main.zip), decompress and put anywhere on your computer.
 
 
