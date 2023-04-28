@@ -6,7 +6,7 @@ const genericModule = GenericModule({
   green: "purple",
 })
 
-(async function start() {
+;(async function start() {
   console.log("before")
 
   try {
