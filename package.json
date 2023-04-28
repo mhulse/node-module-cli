@@ -1,7 +1,7 @@
 {
   "author": "",
   "bin": {
-    "basicmodule": "app/cli.js"
+    "nmcli": "app/cli.js"
   },
   "dependencies": {},
   "description": "",
