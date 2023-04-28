@@ -1,0 +1,22 @@
+{
+  "author": "",
+  "bin": {
+    "basicmodule": "app/cli.js"
+  },
+  "dependencies": {},
+  "description": "",
+  "keywords": [],
+  "license": "https://spdx.org/licenses/",
+  "main": "app/index.js",
+  "name": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/<user>/<repo-name>.git"
+  },
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "version": ""
+}
