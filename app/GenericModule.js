@@ -1,8 +1,10 @@
 import path from "path"
 import fs from "fs-extra"
+import util from './util.js'
 
 const GenericModule = (function () {
-  const html = (__dirname + "/temp.html")
+  const dirName = util.getDirName(import.meta.url)
+  const html = path.join(dirName, "/temp.html")
   const defaults = {
     red: "red",
     green: "green",

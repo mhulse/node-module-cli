@@ -48,11 +48,7 @@ Enter values for all other keys (only `name` and `version` fields are required).
 
 ## Start writing code
 
-The module’s entrypoint is [`app/index.js`](app/index.js).
-
-There’s an example
-
-Feel free to wipe everything in [`app/index.js`](index.js) and start fresh … The existing code is for demo purposes only.
+The module’s entrypoint is [`app/index.js`](app/index.js). Use this as a starting point, or feel free to wipe everything and start fresh … The existing code is for demo purposes only.
 
 ## About the code
 

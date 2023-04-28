@@ -7,7 +7,7 @@ const genericModule = GenericModule({
 })
 
 (async function start() {
-  console.log('before')
+  console.log("before")
 
   try {
     let result = await genericModule({
@@ -20,5 +20,5 @@ const genericModule = GenericModule({
     console.dir(err)
   }
 
-  console.log('after')
+  console.log("after")
 })()
