@@ -50,7 +50,40 @@ Enter values for all other keys (only `name` and `version` fields are required).
 
 The module’s entrypoint is [`app/index.js`](app/index.js).
 
-There’s an example 
+There’s an example
+
+Feel free to wipe everything in [`app/index.js`](index.js) and start fresh … The existing code is for demo purposes only.
+
+## About the code
+
+I wanted to have the option of passing params via `import` **AND** method invocation:
+
+```js
+const genericModule = GenericModule({
+  red: "black",
+  green: "purple",
+})
+
+// ... and later:
+
+let result = await genericModule({
+  orange: "blue",
+}).run()
+```
+
+Alternatively:
+
+```js
+const genericModule = GenericModule({
+  // Options can be passed here:
+  red: 'black',
+  green: 'purple',
+})();
+
+// ... and later:
+
+let result = await genericModule.run();
+```
 
 ## Publishing package to npm (optional)
 
