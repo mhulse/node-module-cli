@@ -22,6 +22,12 @@
 
 Using this repository as a starting point …
 
+## Create a `README.md`
+
+```bash
+echo "# My cool node thingy!" > README.md
+```
+
 ## Edit [`package.json`](package.json)
 
 Add a `name`:
@@ -39,6 +45,12 @@ Add a `name`:
 ```
 
 Enter values for all other keys (only `name` and `version` fields are required).
+
+## Start writing code
+
+The module’s entrypoint is [`app/index.js`](app/index.js).
+
+There’s an example 
 
 ## Publishing package to npm (optional)
 

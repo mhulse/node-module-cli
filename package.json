@@ -3,7 +3,9 @@
   "bin": {
     "nmcli": "app/cli.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "fs-extra": "^11.1.1"
+  },
   "description": "",
   "keywords": [],
   "license": "https://spdx.org/licenses/",
