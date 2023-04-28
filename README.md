@@ -6,8 +6,8 @@
 
 - Install [nvm](https://github.com/nvm-sh/nvm)
 - [Download the zip](https://github.com/mhulse/node-module-cli/archive/refs/heads/main.zip)
-- Decompress anywhere on your computer and `cd` to the root
-- Install dependencies `npm i`
+- Decompress anywhere on your computer and `cd` into the root
+- Install dependencies using `npm i`
 
 ### Run using npm
 
@@ -81,21 +81,21 @@ const genericModule = GenericModule({
 let result = await genericModule.run();
 ```
 
-## Publishing package to npm (optional)
+## Publishing your module to npm (optional)
 
 Set your npm author info:
 
 ```bash
-$ npm set init.author.name 'Your Name'
-$ npm set init.author.email 'you@example.com'
-$ npm set init.author.url 'http://yourblog.com'
-$ npm adduser
+npm set init.author.name 'Your Name'
+npm set init.author.email 'you@example.com'
+npm set init.author.url 'http://yourblog.com'
+npm adduser
 ```
 
 Next, bump version number in [`package.json`](package.json) and publish on npm:
 
-```
-$ npm publish
+```bash
+npm publish
 ```
 
 ## License
