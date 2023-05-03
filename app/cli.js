@@ -4,9 +4,10 @@ import colors from "colors"
 import yargs from "yargs"
 
 import util from "./util.js"
+import GenericModule from "./GenericModule.js"
 
 module.exports = (() => {
-  class GenericCLI {
+  class GenericModuleCLI {
     constructor () {
       this._argv = {}
       this._allowed = {
@@ -47,7 +48,7 @@ module.exports = (() => {
         .strict()
 
         try {
-          this._argv = await parser.parse();
+          this._argv = await parser.parse()
           console.info("Parsed!")
         } catch (err) {
           console.info(`${err.message}\n ${await parser.getHelp()}`)
@@ -56,26 +57,55 @@ module.exports = (() => {
 
     async checkOptions () {
       const results = {
-        directory: "set".green,
-        letters: "not set".yellow,
-        numbers: "not set".yellow,
+        directory: "required".red,
+        letters: "optional".yellow,
+        numbers: "optional".yellow,
       }
 
-      // Yargs demanded this option:
-      this._options.directory = this._argv.directory;
+      if (
+        this._argv.directory
+        &&
+        (typeof this._argv.directory === "string")
+        &&
+        (await util.dirExists(this._argv.directory))
+      ) {
+        this._options.directory = this._argv.directory;
+        results.directory = this._argv.directory.green;
+      }
 
       if (
         this._argv.letters
         &&
-        (typeof this._argv.letters === 'string')
+        (typeof this._argv.letters === "string")
         &&
         this._allowed.letters.includes(this._argv.letters)
       ) {
-        this._options.letters = this._argv.letters;
-        results.letters = this._argv.letters.green;
+        this._options.letters = this._argv.letters
+        results.letters = this._argv.letters.green
       }
 
-      // ........ more to come ........
+      if (
+        this._argv.numbers
+        &&
+        (typeof this._argv.numbers === "number")
+        &&
+        this._allowed.numbers.includes(this._argv.numbers)
+      ) {
+        this._options.numbers = this._argv.numbers;
+        results.numbers = this._argv.numbers.toString().green
+      }
+
+      for (const [key, value] of Object.entries(results)) {
+        console.log(`${key.bold.gray}: ${value}`)
+      }
+    }
+
+    async callGenericModule () {
+      const genericModule = new GenericModule(
+        this._options
+      );
+
+      console.log(this._options);
     }
   }
 })()
