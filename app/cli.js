@@ -102,15 +102,15 @@ export default (() => {
     }
 
     async callGenericModule () {
-      const genericModule = new GenericModule(
-        this._options
-      )
-
-      console.log(this._options)
-
       console.log("before")
 
       try {
+        console.log(this._options)
+
+        const genericModule = GenericModule(
+          this._options
+        )
+
         await genericModule({
           // Options can also be passed here:
           // orange: "blue",

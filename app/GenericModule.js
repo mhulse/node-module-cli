@@ -38,9 +38,7 @@ const GenericModule = (function () {
 
     async run() {
       // console.log("options:", this.options);
-      let dirName = this.options.directory || import.meta.url
-      dirName = util.getDirName(dirName)
-
+      const dirName = util.normalizePath(this.options.directory) || util.getCurrentModulePath()
       const html = path.join(dirName, "/temp.html")
 
       if (this.options.orange == "orange") {
