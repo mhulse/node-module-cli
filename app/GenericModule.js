@@ -1,5 +1,5 @@
 import path from "path"
-import fs from "fs-extra"
+import fs from "fs"
 import util from "./util.js"
 
 const GenericModule = (function () {
@@ -38,18 +38,18 @@ const GenericModule = (function () {
 
     async run() {
       // console.log("options:", this.options);
-      const dirName = this.options.directory || import.meta.url
+      let dirName = this.options.directory || import.meta.url
       dirName = util.getDirName(dirName)
-      
+
       const html = path.join(dirName, "/temp.html")
 
       if (this.options.orange == "orange") {
         // Instead of using `writeFile().then()`, use await:
-        await fs.writeFile(html, "Hello world!", "utf8")
+        await fs.promises.writeFile(html, "Hello world!", "utf8")
 
-        let result = await fs.readFile(html, "utf8")
+        let result = await fs.promises.readFile(html, "utf8")
 
-        await fs.unlink(html)
+        await fs.promises.unlink(html)
 
         // Resolve this async function with the result:
         return result
