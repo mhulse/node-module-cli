@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import colors from "colors"
+import readline from "readline"
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers" // This is shorthand for `process.argv.slice(2)`.
 
@@ -11,116 +12,79 @@ export default (() => {
   class GenericModuleCLI {
     constructor () {
       this._argv = {}
-      this._allowed = {
-        letters: ["A", "B", "C", "D"],
-        numbers: [0, 1, 2],
-      }
-      this._options = {}
+    }
+
+    async confirm(question) {
+      const line = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      })
+
+      return new Promise((resolve) => {
+        line.question(question, (response) => {
+          line.close()
+          resolve(response.toLowerCase === "y")
+        })
+      })
     }
 
     async getOptions () {
       const parser = yargs(hideBin(process.argv))
         .usage(`Usage: $0 -d </path/to/directory/>`)
         .option("directory", {
-          alias: [
-            "d",
-          ],
+          alias: "d",
           description: "Output directory?",
           type: "string",
           demand: true,
         })
-        .option("letters", {
-          alias: [
-            "l",
-          ],
-          description: `Alphabet? Choose one: ${this._allowed.letters.join(", ")}`,
+        .option("color", {
+          alias: "c",
+          describe: "Choose a color",
+          choices: ["red", "green", "blue", "orange"],
+          default: "red",
           type: "string",
         })
-        .option("numbers", {
-          alias: [
-            "n",
-          ],
-          description: `Numbers? Choose one: ${this._allowed.numbers.join(", ")}`,
-          type: "number",
+        .check(async argv => {
+          if (! (await util.dirExists(argv.directory))) {
+            throw new Error("Value passed for option `directory` does not exist!")
+          }
+          return true;
         })
+        .showHelpOnFail(true)
         .alias("h", "help")
-        .help("h", "Show help.")
+        .help("help")
         .fail(false)
         .strict()
 
         try {
           this._argv = await parser.parse()
+
+          console.log()
+          console.log("Your choices are:".bold)
+          for (const value of ["directory", "color"]) {
+            console.log(`${value}: ${this._argv[value].green}`)
+          }
+          console.log()
+
+          await this.confirm(`Execute? [Y/n] `)
         } catch (err) {
           console.info(`${err.message}\n ${await parser.getHelp()}`)
         }
-    }
-
-    async checkOptions () {
-      const results = {
-        directory: "not set".red,
-        letters: "not set".yellow,
-        numbers: "not set".yellow,
-      }
-
-      if (
-        this._argv.directory
-        &&
-        (typeof this._argv.directory === "string")
-        &&
-        (await util.dirExists(this._argv.directory))
-      ) {
-
-        this._options.directory = this._argv.directory;
-        results.directory = this._argv.directory.green;
-      }
-
-      if (
-        this._argv.letters
-        &&
-        (typeof this._argv.letters === "string")
-        &&
-        this._allowed.letters.includes(this._argv.letters)
-      ) {
-        this._options.letters = this._argv.letters
-        results.letters = this._argv.letters.green
-      }
-
-      if (
-        this._argv.numbers
-        &&
-        (typeof this._argv.numbers === "number")
-        &&
-        this._allowed.numbers.includes(this._argv.numbers)
-      ) {
-        this._options.numbers = this._argv.numbers;
-        results.numbers = this._argv.numbers.toString().green
-      }
-
-      for (const [key, value] of Object.entries(results)) {
-        console.log(`${key.bold.gray}: ${value}`)
-      }
     }
 
     async callGenericModule () {
       console.log("before")
 
       try {
-        console.log(this._options)
-
         const genericModule = GenericModule(
-          this._options
+          this._argv
         )
 
-        await genericModule({
-          // Options can also be passed here:
-          // orange: "blue",
-        }).run()
+        let result = await genericModule().run()
+
+        console.log(result)
       } catch (err) {
-        console.error(
-          "Exiting CLI due to error:".red,
-          "\n",
-          err
-        )
+        console.error("Exiting CLI due to error:".red, "\n", err)
 
         process.exitCode = 1
       }
@@ -130,10 +94,9 @@ export default (() => {
   }
 
   (async () => {
-    const genericModuleCLI = new GenericModuleCLI();
+    const genericModuleCLI = new GenericModuleCLI()
 
-    await genericModuleCLI.getOptions();
-    await genericModuleCLI.checkOptions();
-    await genericModuleCLI.callGenericModule();
+    await genericModuleCLI.getOptions()
+    await genericModuleCLI.callGenericModule()
   })();
 })()

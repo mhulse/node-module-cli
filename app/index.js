@@ -2,8 +2,7 @@ import GenericModule from './GenericModule.js'
 
 const genericModule = GenericModule({
   // Options can be passed here:
-  red: "black",
-  green: "purple",
+  color: "orange",
 })
 
 ;(async function start() {
@@ -11,13 +10,13 @@ const genericModule = GenericModule({
 
   try {
     let result = await genericModule({
-      // Options can also be passed here:
-      // orange: "blue",
+      // … and options can be passed here:
+      //color: "blue",
     }).run()
 
     console.log(result)
   } catch(err) {
-    console.dir(err)
+    console.error("Exiting app due to error:".red, "\n", err)
   }
 
   console.log("after")

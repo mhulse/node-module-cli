@@ -4,12 +4,10 @@ import util from "./util.js"
 
 const GenericModule = (function () {
   const defaults = {
-    red: "red",
-    green: "green",
-    orange: "orange",
+    letters: "A",
+    numbers: 1,
   }
 
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
   class GenericModule {
     // Singleton pattern:
     constructor(options = {}) {
@@ -37,11 +35,10 @@ const GenericModule = (function () {
     }
 
     async run() {
-      // console.log("options:", this.options);
       const dirName = util.normalizePath(this.options.directory) || util.getCurrentModulePath()
       const html = path.join(dirName, "/temp.html")
 
-      if (this.options.orange == "orange") {
+      if (this.options.color == "orange") {
         // Instead of using `writeFile().then()`, use await:
         await fs.promises.writeFile(html, "Hello world!", "utf8")
 
@@ -52,7 +49,7 @@ const GenericModule = (function () {
         // Resolve this async function with the result:
         return result
       } else {
-        throw new Error(`Orange isn’t orange, it’s ${this.options.orange}!`)
+        throw new Error(`Orange isn’t orange, it’s ${this.options.color}!`)
       }
     }
   }
@@ -60,15 +57,10 @@ const GenericModule = (function () {
   return GenericModule
 }())
 
-// These options come from `require()({ … options … })` syntax:
 export default (options = {}) => {
-  // If passed, instanciate class and pass options:
   if (Object.entries(options).length) {
-    console.log("Whoa!")
-
     new GenericModule(options)
   }
 
-  // Return the `init` method:
   return GenericModule.init
 }
